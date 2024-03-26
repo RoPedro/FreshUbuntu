@@ -12,6 +12,9 @@ packages=(
     "cargo"
     "curl"
     "gdb"
+    "transmission"
+    "ffmpeg"
+    "obs-studio"
 )
 
 # Install all packages
@@ -20,6 +23,7 @@ install_packages()
     # Adding Neovim PPA
     echo "Adding Neovim PPA..."
     sudo add-apt-repository ppa:neovim-ppa/unstable -y
+    sudo add-apt-repository ppa:obsproject/obs-studio -y
 
     sudo apt update -y
 
@@ -34,6 +38,7 @@ install_packages()
     echo "Installed packages: ${packages[*]}"
 }
 
+# Install Microsoft Edge
 install_msEdge()
 {
     echo "Installing Microsoft Edge..."
@@ -44,6 +49,14 @@ install_msEdge()
     sudo rm microsoft.gpg
 
     sudo apt update && sudo apt install microsoft-edge-stable
+}
+
+# Install Google Chrome
+install_chrome()
+{
+    echo "Installing Google Chrome..."
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    sudo dpkg -i google-chrome-stable_current_amd64.deb
 }
 
 # Clones repositories
@@ -145,6 +158,7 @@ main()
 {
     install_packages
     install_msEdge
+    install_chrome
     clone_repositories
     check_configure_git
     install_nerdfonts
