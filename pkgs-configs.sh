@@ -10,6 +10,8 @@ packages=(
     "ripgrep"
     "gh"
     "cargo"
+    "curl"
+    "gdb"
 )
 
 # Install all packages
@@ -30,6 +32,18 @@ install_packages()
     done
 
     echo "Installed packages: ${packages[*]}"
+}
+
+install_msEdge()
+{
+    echo "Installing Microsoft Edge..."
+
+    curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+    sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+    sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-dev.list'
+    sudo rm microsoft.gpg
+
+    sudo apt update && sudo apt install microsoft-edge-stable
 }
 
 # Clones repositories
@@ -130,6 +144,7 @@ tmux_configurations()
 main()
 {
     install_packages
+    install_msEdge
     clone_repositories
     check_configure_git
     install_nerdfonts
